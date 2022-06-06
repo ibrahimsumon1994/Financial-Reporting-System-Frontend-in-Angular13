@@ -1,0 +1,74 @@
+<div fxLayout="column" fxLayoutAlign="space-around">
+  <div>
+      <title class="title" mat-dialog-title *ngIf="!data">Create Common Code</title>
+      <title class="title" mat-dialog-title *ngIf="data">Edit Common Code</title>
+  </div>
+  <mat-progress-bar *ngIf="asyncService?.isLoading | async" mode="indeterminate">
+  </mat-progress-bar>
+  <div fxLayout="column" fxLayoutAlign="space-around center">
+      <form [formGroup]="form" autocomplete="off">
+          <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" class="tab">
+              <div fxLayout="row wrap" fxLayoutGap="10px" fxFlex="100%" fxFlex.sm="50%" fxLayout.lt-sm="column"
+                  fxFlex.xs="100%" fxLayoutAlign="flex-start">
+
+                  <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)"
+                      fxFlex.lt-md="1 1 calc(30% - 10px)" fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                      <mat-label class="label-padding">Name Bangla</mat-label>
+                      <input class="label-padding" type="text" matInput placeholder="Name Bangla"
+                          formControlName="nameBangla" required />
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)"
+                      fxFlex.lt-md="1 1 calc(30% - 10px)" fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                      <mat-label class="label-padding">Name English</mat-label>
+                      <input class="label-padding" type="text" matInput placeholder="Name English"
+                          formControlName="nameEnglish" required />
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)"
+                      fxFlex.lt-md="1 1 calc(30% - 10px)" fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                      <mat-label class="label-padding">Type</mat-label>
+                      <input class="label-padding" type="text" matInput placeholder="Type"
+                          formControlName="type" required />
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)"
+                      fxFlex.lt-md="1 1 calc(30% - 10px)" fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                      <mat-label class="label-padding">Code</mat-label>
+                      <input class="label-padding" type="text" matInput placeholder="Code"
+                          formControlName="code" />
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)" fxFlex.lt-md="1 1 calc(30% - 10px)"
+                    fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                    <mat-label class="label-padding">Department</mat-label>
+                    <mat-select formControlName="departmentId">
+                      <input
+                        style="width: -webkit-fill-available; margin-bottom: 10px; height: 30px;"
+                        placeholder="Search & Select"
+                        (keyup)="onSearchDepartment($any($event.target).value)"
+                      />
+                      <div style="height: 200px; overflow-y: auto">
+                        <mat-option>Select department</mat-option>
+                        <mat-option *ngFor="let item of departmentDropdown" [value]="item.departmentId">{{
+                          item.nameEnglish
+                        }}</mat-option>
+                      </div>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <div mat-dialog-actions fxFlex="1 1 calc(100% - 10px)" fxFlex.lt-md="1 1 calc(100% - 10px)"
+                      fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color" fxLayoutAlign="center center"
+                      fxLayoutGap="10px">
+                      <button type="button" [mat-dialog-close] mat-raised-button
+                          style="background-color : red; color: white;">Cancel</button>
+                      <button type="submit" (click)="onSubmit()" style="background-color : #01ADE4; color: white;"
+                          mat-raised-button [disabled]="form.invalid">
+                          Save
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </form>
+  </div>
+</div>

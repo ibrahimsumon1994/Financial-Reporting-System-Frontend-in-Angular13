@@ -1,0 +1,221 @@
+<div [class.is-mobile]="mobileQuery.matches">
+  <div class="auth-header" *ngIf="!authInfo?.isAuthenticated">
+    <!-- eRecruitment Portal -->
+  </div>
+  <mat-toolbar class="toolbar" *ngIf="isLoggedIn$ | async" color="primary">
+    <mat-toolbar-row>
+      <button
+        mat-icon-button
+        (click)="navService.toggle()"
+        style="color: white"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <h1 id="headline">Financial Reporting System</h1>
+
+      <h1 class="app-name mt-3">
+        <!-- <img
+          src="../../assets/images/logo2.png"
+          style="width: 93px; height: 40px"
+          alt="Applicant Pic"
+        /> -->
+      </h1>
+      <span class="spacer"></span>
+      <span style="margin-right: 10px;">Welcome {{authInfo?.userInformation?.fullName}}</span>
+      <avatar
+        [imageSrc]="
+            authInfo?.userInformation?.picture
+              ? 'data:image/jpg;base64,' + authInfo?.userInformation?.picture
+              : defaultsrc
+          "
+        [matMenuTriggerFor]="menu"
+        [size]="35"
+      >
+      </avatar>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onPasswordChange()">Change Password</button>
+        <button mat-menu-item (click)="onLogOut()">Logout</button>
+      </mat-menu>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-sidenav-container
+    class="sidenav-container"
+    [style.marginTop.px]="(isLoggedIn$ | async) && mobileQuery.matches ? 56 : 0"
+  >
+    <mat-sidenav
+      #appDrawer
+      [mode]="'over'"
+      [fixedInViewport]="mobileQuery.matches"
+      [disableClose]="false"
+    >
+      <mat-nav-list>
+        <nav-menu-item
+          *ngFor="let item of navigationList"
+          [item]="item"
+        ></nav-menu-item>
+      </mat-nav-list>
+    </mat-sidenav>
+
+
+    <mat-sidenav-content>
+      <mat-card
+        [ngClass]="[
+          (isLoggedIn$ | async) ? 'card' : 'card-auth',
+          isFullScreen ? 'fullscreen' : ''
+        ]"
+      >
+        <mat-card-header *ngIf="isLoggedIn$ | async" class="nav card-header">
+          <mat-progress-bar
+            class="card-header-progress"
+            *ngIf="isLoading"
+            mode="indeterminate"
+          >
+          </mat-progress-bar>
+          <div class="card-header-content">
+            <div class="card-header-navigation">
+              <a
+                [routerLink]="['/dashboard']"
+                mat-icon-button
+                matTooltip="Home"
+                [color]="'primary'"
+              >
+                <mat-icon>home</mat-icon>
+              </a>
+              {{ uiInfo?.title }}
+            </div>
+            <div *ngIf="uiInfo" class="nav-ui-actions">
+              <ng-container
+                *ngTemplateOutlet?="uiInfo?.additionalComponent"
+              ></ng-container>
+
+              <button
+                type="button"
+                *ngIf="uiInfo?.goFullScreen || isFullScreen"
+                mat-icon-button
+                color="accent"
+                matTooltip="Maximize to fullscreen"
+                (click)="toggleFullScreen()"
+              >
+                <mat-icon>{{
+                  isFullScreen ? "fullscreen_exit" : "fullscreen"
+                }}</mat-icon>
+              </button>
+              <a
+                [routerLink]="[uiInfo?.editPath]"
+                *ngIf="uiInfo?.editPath"
+                mat-icon-button
+                matTooltip="Edit"
+              >
+                <mat-icon>edit</mat-icon>
+              </a>
+              <!-- <a
+                [routerLink]="[uiInfo?.goBackPath]"
+                *ngIf="uiInfo?.goBackPath"
+                mat-icon-button
+                matTooltip="Go Back"
+              >
+                <mat-icon>arrow_back</mat-icon>
+              </a> -->
+              <a
+                *ngIf="uiInfo?.goBack"
+                mat-icon-button
+                matTooltip="Back"
+                (click)="uiInfo?.goBack()"
+              >
+                <mat-icon>arrow_back</mat-icon>
+              </a>
+              <a
+                *ngIf="uiInfo?.goNext"
+                mat-icon-button
+                matTooltip="Next"
+                (click)="uiInfo?.goNext()"
+              >
+                <mat-icon>arrow_forward</mat-icon>
+              </a>
+              <button
+                type="button"
+                *ngIf="uiInfo?.qrcode"
+                mat-icon-button
+                color="accent"
+                matTooltip="Print All QR"
+                (click)="uiInfo?.qrcode()"
+              >
+                <img
+                  src="../../../../assets/images/qr1.png"
+                  alt="qr-code"
+                  height="20px"
+                  width="20px"
+                />
+              </button>
+              <!-- <a
+                [routerLink]="[uiInfo?.refreshPath]"
+                *ngIf="uiInfo?.refreshPath"
+                mat-icon-button
+                matTooltip="Refresh"
+              >
+                <mat-icon>refresh</mat-icon>
+              </a> -->
+              <button
+                type="button"
+                *ngIf="uiInfo?.refresh"
+                mat-icon-button
+                color="primary"
+                matTooltip="Refresh"
+                (click)="uiInfo?.refresh()"
+              >
+                <mat-icon>refresh</mat-icon>
+              </button>
+              <a
+                [routerLink]="[uiInfo?.addNewPath]"
+                *ngIf="uiInfo?.addNewPath"
+                mat-icon-button
+                matTooltip="Add New"
+                color="primary"
+              >
+                <mat-icon>add_box</mat-icon>
+              </a>
+              <button
+                type="reset"
+                [attr.form]="uiInfo?.formId"
+                *ngIf="uiInfo?.formId"
+                mat-icon-button
+                color="warm"
+                matTooltip="Reset"
+              >
+                <mat-icon>cancel</mat-icon>
+              </button>
+              <button
+                [disabled]="isLoading"
+                type="submit"
+                [attr.form]="uiInfo?.formId"
+                *ngIf="uiInfo?.formId"
+                mat-icon-button
+                color="primary"
+                matTooltip="Save Changes"
+              >
+                <mat-icon>save</mat-icon>
+              </button>
+              <button
+                type="button"
+                *ngIf="uiInfo?.submitAll"
+                mat-icon-button
+                color="primary"
+                matTooltip="Submit"
+                (click)="uiInfo?.submitAll()"
+              >
+                <mat-icon>save</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-card-header>
+        <mat-card-content [ngClass]="!isLoggedIn$ ? 'card-content-auth' : ''">
+          <router-outlet *ngIf="routerOutletActive"></router-outlet>
+          <div class="footer" *ngIf="!isFullScreen">
+            <div>&copy; Copyright Anwar Group Of Industries(AGI). All rights reserved.</div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

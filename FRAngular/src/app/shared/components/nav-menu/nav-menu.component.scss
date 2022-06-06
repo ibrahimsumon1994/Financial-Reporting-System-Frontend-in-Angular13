@@ -1,0 +1,218 @@
+@import "../../../../assets/theme/frs-theme.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.is-mobile .toolbar {
+  position: fixed;
+  z-index: 2;
+}
+
+h1.app-name {
+  margin-left: 8px;
+}
+
+.sidenav-container {
+  flex: 1;
+}
+
+.is-mobile .sidenav-container {
+  flex: 1 0 auto;
+}
+
+.icon {
+  padding: 0 14px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.workClass {
+ padding-right: 10px;
+//  padding-bottom: 20px;
+ font-size: 15px;
+}
+
+.mat-toolbar-multiple-rows {
+  min-height: unset;
+}
+
+.mat-toolbar-row {
+  height: 45px;
+}
+
+.mat-list-item-content {
+  flex: 1 1 100% !important;
+}
+
+mat-sidenav {
+  width: 300px;
+}
+
+mat-sidenav-content {
+  padding: 10px;
+}
+
+.card {
+  height: calc(100vh - 85px);
+  padding: 0 !important;
+  overflow-y: auto;
+}
+
+.card-auth {
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  margin: 100px 15%;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.card-auth>mat-card-content {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.auth-header {
+  position: fixed;
+  padding: 5px 10px;
+  background-color: $primary;
+  height: 30px;
+  color: #ffffff;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  top: 0px;
+  left: 0px;
+  z-index: 3;
+}
+
+@media only screen and (max-width: 599px) {
+  .mat-sidenav {
+    top: 0px !important;
+    margin-top: 45px;
+  }
+  .mat-sidenav-container {
+    margin-top: 45px !important;
+  }
+}
+
+@media only screen and (max-width: 959px) {
+  .card-auth {
+    padding: 0;
+    margin: 0;
+  }
+
+  .card-auth>mat-card-content {
+    padding: 0 !important;
+  }
+}
+
+mat-card-header {
+  padding: 10px !important;
+  box-shadow: 0 2px 3px -2px rgba(0, 0, 0, 0.2);
+}
+
+.card-header-navigation {
+  display: flex;
+  align-items: center;
+}
+
+.card-header-content {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.home-navigation {
+  color: white;
+  background-color: #3f51b5;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+}
+
+.card-header-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mat-card-content {
+  padding: 15px 1rem !important;
+  z-index: -1 !important;
+}
+
+.footer {
+  position: fixed;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: $primary;
+  color: #ffffff;
+}
+
+.footer>div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  font-size: 12.5px;
+}
+
+.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.auth-background {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+
+  //background-image: url("/assets/images/honda-login-background.jpg");
+  /* filter: blur(1px);
+  -webkit-filter: blur(1px); */
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.auth-background img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.nav-ui-actions {
+  display: inline-flex;
+}

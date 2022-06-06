@@ -1,0 +1,96 @@
+<div fxLayout="column" fxLayoutAlign="space-around">
+  <div>
+      <title class="title" mat-dialog-title *ngIf="!data">Create Header</title>
+      <title class="title" mat-dialog-title *ngIf="data">Edit Header</title>
+  </div>
+  <mat-progress-bar *ngIf="asyncService?.isLoading | async" mode="indeterminate">
+  </mat-progress-bar>
+  <div fxLayout="column" fxLayoutAlign="space-around center">
+      <form [formGroup]="form" autocomplete="off">
+          <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" class="tab">
+              <div fxLayout="row wrap" fxLayoutGap="10px" fxFlex="100%" fxFlex.sm="50%" fxLayout.lt-sm="column"
+                  fxFlex.xs="100%" fxLayoutAlign="flex-start">
+
+                  <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)" fxFlex.lt-md="1 1 calc(30% - 10px)"
+                    fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                    <mat-label class="label-padding">Header Type</mat-label>
+                    <mat-select formControlName="headerTypeId" required (ngModelChange)="disableHeaderLayerOnClick($event)">
+                      <input
+                        style="width: -webkit-fill-available; margin-bottom: 10px; height: 30px;"
+                        placeholder="Search & Select"
+                        (keyup)="onSearchHeaderType($any($event.target).value)"
+                      />
+                      <div style="height: 200px; overflow-y: auto">
+                        <mat-option>Select Header Type</mat-option>
+                        <mat-option *ngFor="let item of headerTypeDropdown" [value]="item.commonCodeId">
+                          {{item.nameEnglish}}
+                        </mat-option>
+                      </div>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)"
+                      fxFlex.lt-md="1 1 calc(30% - 10px)" fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                      <mat-label class="label-padding">Header Layer</mat-label>
+                      <mat-select formControlName="headerLayer" required (ngModelChange)="hideParentHeaderOnClick($event)">
+                        <mat-option>Select Header Layer</mat-option>
+                        <mat-option [value]=1>1st</mat-option>
+                        <mat-option [value]=2>2nd</mat-option>
+                        <mat-option [value]=3>3rd</mat-option>
+                      </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)" fxFlex.lt-md="1 1 calc(30% - 10px)"
+                    fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                    <mat-label class="label-padding">Parent Header</mat-label>
+                    <mat-select formControlName="parentHeaderId" required (ngModelChange)="getHeaderCode($event)">
+                      <input
+                        style="width: -webkit-fill-available; margin-bottom: 10px; height: 30px;"
+                        placeholder="Search & Select"
+                        (keyup)="onSearchParentHeader($any($event.target).value)"
+                      />
+                      <div style="height: 200px; overflow-y: auto">
+                        <mat-option>Select Parent Header</mat-option>
+                        <mat-option *ngFor="let item of parentHeaderDropdown" [value]="item.headerId">
+                          {{item.headerName}}
+                        </mat-option>
+                      </div>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)"
+                      fxFlex.lt-md="1 1 calc(30% - 10px)" fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                      <mat-label class="label-padding">Header Name</mat-label>
+                      <input class="label-padding" type="text" matInput placeholder="Header Name"
+                          formControlName="headerName" required />
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)"
+                      fxFlex.lt-md="1 1 calc(30% - 10px)" fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                      <mat-label class="label-padding">Header Code</mat-label>
+                      <input class="label-padding" type="text" matInput placeholder="Header Code"
+                          formControlName="headerCode" required readonly/>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" fxFlex="1 1 calc(100% - 10px)"
+                      fxFlex.lt-md="1 1 calc(30% - 10px)" fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                      <mat-label class="label-padding">Remarks</mat-label>
+                      <textarea class="label-padding" type="text" matInput placeholder="Remarks"
+                          formControlName="remarks" ></textarea>
+                  </mat-form-field>
+
+                  <div mat-dialog-actions fxFlex="1 1 calc(100% - 10px)" fxFlex.lt-md="1 1 calc(100% - 10px)"
+                      fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color" fxLayoutAlign="center center"
+                      fxLayoutGap="10px">
+                      <button type="button" [mat-dialog-close] mat-raised-button
+                          style="background-color : red; color: white;">Cancel</button>
+                      <button type="submit" (click)="onSubmit()" style="background-color : #01ADE4; color: white;"
+                          mat-raised-button [disabled]="form.invalid">
+                          Save
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </form>
+  </div>
+</div>

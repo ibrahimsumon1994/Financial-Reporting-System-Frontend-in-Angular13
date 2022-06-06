@@ -1,0 +1,110 @@
+<div fxLayout="column" fxLayoutAlign="space-around">
+    <div>
+        <title class="title" mat-dialog-title *ngIf="!data">Create Menu</title>
+        <title class="title" mat-dialog-title *ngIf="data">Edit Menu</title>
+    </div>
+    <mat-progress-bar *ngIf="asyncService?.isLoading | async" mode="indeterminate">
+    </mat-progress-bar>
+    <div fxLayout="column" fxLayoutAlign="space-around center">
+        <form [formGroup]="form" autocomplete="off">
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" class="tab">
+                <div fxLayout="row wrap" fxLayoutGap="10px" fxFlex="100%" fxFlex.sm="50%" fxLayout.lt-sm="column"
+                    fxFlex.xs="100%" fxLayoutAlign="flex-start">
+
+                    <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)"
+                        fxFlex.lt-md="1 1 calc(30% - 10px)" fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                        <mat-label class="label-padding">Menu Name</mat-label>
+                        <input class="label-padding" type="text" matInput placeholder="Menu Name"
+                            formControlName="menuName" required />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)"
+                        fxFlex.lt-md="1 1 calc(30% - 10px)" fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                        <mat-label class="label-padding">Menu Location</mat-label>
+                        <input class="label-padding" type="text" matInput placeholder="Menu Location"
+                            formControlName="menuLocation" required />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)"
+                        fxFlex.lt-md="1 1 calc(30% - 10px)" fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                        <mat-label class="label-padding">Menu Sequence</mat-label>
+                        <input class="label-padding" type="number" matInput placeholder="Menu Sequence"
+                            formControlName="menuSequence" required />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)" fxFlex.lt-md="1 1 calc(30% - 10px)"
+                      fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                      <mat-label class="label-padding">Menu Icon</mat-label>
+                      <mat-select formControlName="menuIcon" required>
+                        <input
+                          style="width: -webkit-fill-available; margin-bottom: 10px; height: 30px;"
+                          placeholder="Search & Select"
+                          (keyup)="onSearchMenuIcon($any($event.target).value)"
+                        />
+                        <div style="height: 200px; overflow-y: auto">
+                          <mat-option>Select Menu Icon</mat-option>
+                          <mat-option *ngFor="let item of menuIconDropdown" [value]="item.value">
+                            <mat-icon>{{item.value}}</mat-icon> &nbsp; {{item.text}}
+                          </mat-option>
+                        </div>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)"
+                        fxFlex.lt-md="1 1 calc(30% - 10px)" fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                        <mat-label class="label-padding">Report Path</mat-label>
+                        <input class="label-padding" type="text" matInput placeholder="Report Path"
+                            formControlName="reportPath" />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)" fxFlex.lt-md="1 1 calc(30% - 10px)"
+                      fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                      <mat-label class="label-padding">Menu Type</mat-label>
+                      <mat-select formControlName="menuTypeId" required>
+                        <input
+                          style="width: -webkit-fill-available; margin-bottom: 10px; height: 30px;"
+                          placeholder="Search & Select"
+                          (keyup)="onSearchMenuType($any($event.target).value)"
+                        />
+                        <div style="height: 200px; overflow-y: auto">
+                          <mat-option>Select Menu Type</mat-option>
+                          <mat-option *ngFor="let item of menuTypeDropdown" [value]="item.commonCodeId">
+                            {{item.nameEnglish}}
+                          </mat-option>
+                        </div>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)" fxFlex.lt-md="1 1 calc(30% - 10px)"
+                      fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+                      <mat-label class="label-padding">Parent Menu</mat-label>
+                      <mat-select formControlName="parentId">
+                        <input
+                          style="width: -webkit-fill-available; margin-bottom: 10px; height: 30px;"
+                          placeholder="Search & Select"
+                          (keyup)="onSearchParentMenu($any($event.target).value)"
+                        />
+                        <div style="height: 200px; overflow-y: auto">
+                          <mat-option>Select Parent Menu</mat-option>
+                          <mat-option *ngFor="let item of parentMenuDropdown" [value]="item.menuId">
+                            {{item.menuName}}
+                          </mat-option>
+                        </div>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <div mat-dialog-actions fxFlex="1 1 calc(100% - 10px)" fxFlex.lt-md="1 1 calc(100% - 10px)"
+                        fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color" fxLayoutAlign="center center"
+                        fxLayoutGap="10px">
+                        <button type="button" [mat-dialog-close] mat-raised-button
+                            style="background-color : red; color: white;">Cancel</button>
+                        <button type="submit" (click)="onSubmit()" style="background-color : #01ADE4; color: white;"
+                            mat-raised-button [disabled]="form.invalid">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

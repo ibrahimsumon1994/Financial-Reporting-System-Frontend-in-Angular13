@@ -1,0 +1,216 @@
+<div fxLayout="column" fxLayoutAlign="space-around">
+  <div>
+    <title class="title" mat-dialog-title *ngIf="!data">Create User</title>
+    <title class="title" mat-dialog-title *ngIf="data">Edit User</title>
+  </div>
+  <!-- <div style="overflow-y:auto; height:calc(100vh - 120px)"> -->
+  <div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate autocomplete="off">
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" class="tab">
+        <div fxLayout="row wrap" fxLayoutGap="10px" fxFlex="100%" fxFlex.sm="50%" fxLayout.lt-sm="column"
+          fxFlex.xs="100%" fxLayoutAlign="flex-start">
+
+          <mat-form-field appearance="outline" fxFlex="1 1 calc(50% - 10px)" fxFlex.lt-md="1 1 calc(50% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color" *ngIf="!data">
+            <mat-label class="label-padding">User ID</mat-label>
+            <input class="label-padding" formControlName="userId" matInput placeholder="User ID" required />
+            <mat-error *ngIf="userId?.errors?.['exists']">Already Exists !</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex="1 1 calc(50% - 10px)" fxFlex.lt-md="1 1 calc(50% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color" *ngIf="!data">
+              <mat-label class="label-padding">Enter New Password</mat-label>
+              <input type="password" class="label-padding" type="text" style="-webkit-text-security: disc;"
+                  matInput placeholder="New Password" formControlName="password" />
+                      <mat-error *ngIf="password?.errors?.['required'] && password?.touched">Specify a password</mat-error>
+                      <mat-error *ngIf="password?.errors?.['minlength']">Must contain at least 8 characters</mat-error>
+                      <mat-error *ngIf="password?.errors?.['maxlength']">Can't exceed 14 characters</mat-error>
+                      <mat-error *ngIf="password?.errors?.['pattern']">Must contain atleast one lowercase letter, one uppercase letter and one special character</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex="1 1 calc(35% - 10px)" fxFlex.lt-md="1 1 calc(35% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+            <mat-label class="label-padding">User Name</mat-label>
+            <input class="label-padding" matInput placeholder="User Name" formControlName="userFullName" required />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex="1 1 calc(35% - 10px)" fxFlex.lt-md="1 1 calc(35% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+            <mat-label class="label-padding">Employee Id</mat-label>
+            <input class="label-padding" matInput placeholder="Employee Id" formControlName="employeeId" required />
+          </mat-form-field>
+
+          <div fxFlex="1 1 calc(15% - 10px)" fxFlex.lt-md="1 1 calc(15% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+
+            <mat-form-field appearance="outline" fxFlex="1 1 calc(15% - 10px)" fxFlex.lt-md="1 1 calc(15% - 10px)"
+              fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+              <mat-label class="label-padding">User Picture</mat-label>
+              <img [src]="'data:image/jpg;base64,' + imgArrayy" style="height:100px;width:100px;padding-top: 15px;"
+              *ngIf="imgArrayy" />
+              <ngx-mat-file-input type="file" formControlName="picture"
+                (change)="uploadPic($event.target)">
+              </ngx-mat-file-input>
+              <mat-icon matTooltip="Upload" matSuffix>publish</mat-icon>
+            </mat-form-field>
+
+            <button type="button" class="btn picture-update" style="color: red;" (click)="deletePicture()" matTooltip="Delete" *ngIf="imgArrayy && data">
+              <mat-icon>clear</mat-icon>
+            </button>
+
+            <button type="button" class="btn picture-add" style="color: red;" (click)="deletePicture()" matTooltip="Delete" *ngIf="imgArrayy && !data">
+              <mat-icon>clear</mat-icon>
+            </button>
+          </div>
+
+          <div fxFlex="1 1 calc(15% - 10px)" fxFlex.lt-md="1 1 calc(15% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+
+            <mat-form-field appearance="outline" fxFlex="1 1 calc(15% - 10px)" fxFlex.lt-md="1 1 calc(15% - 10px)"
+              fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+              <mat-label class="label-padding">User Signature</mat-label>
+              <img [src]="'data:image/jpg;base64,' + signArrayy" style="height:100px;width:100px;padding-top: 15px;"
+              *ngIf="signArrayy" />
+              <ngx-mat-file-input type="file" formControlName="signature" placeholder="User Signature"
+                (change)="uploadSign($event.target)">
+              </ngx-mat-file-input>
+              <mat-icon matTooltip="Upload" matSuffix>publish</mat-icon>
+            </mat-form-field>
+
+            <button type="button" class="btn signature-update" style="color: red;" (click)="deleteSignature()" matTooltip="Delete" *ngIf="signArrayy && data">
+              <mat-icon>clear</mat-icon>
+            </button>
+
+            <button type="button" class="btn signature-add" style="color: red;" (click)="deleteSignature()" matTooltip="Delete" *ngIf="signArrayy && !data">
+              <mat-icon>clear</mat-icon>
+            </button>
+          </div>
+
+          <mat-form-field appearance="outline" fxFlex="1 1 calc(33% - 10px)" fxFlex.lt-md="1 1 calc(33% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+            <mat-label class="label-padding">Mobile No</mat-label>
+            <input class="label-padding" matInput placeholder="Mobile No" formControlName="mobileNo" required />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex="1 1 calc(33% - 10px)" fxFlex.lt-md="1 1 calc(33% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+            <mat-label class="label-padding">Date of Birth</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="dob">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex="1 1 calc(33% - 10px)" fxFlex.lt-md="1 1 calc(33% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+            <mat-label class="label-padding">Email Address</mat-label>
+            <input class="label-padding" matInput placeholder="Email Address" formControlName="email" required />
+            <mat-error *ngIf="email?.errors">Enter a valid email address</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex="1 1 calc(33% - 10px)" fxFlex.lt-md="1 1 calc(33% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+            <mat-label class="label-padding">Present Address</mat-label>
+            <input class="label-padding" matInput placeholder="Present Address" formControlName="presentAddress" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex="1 1 calc(33% - 10px)" fxFlex.lt-md="1 1 calc(33% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+            <mat-label class="label-padding">Permanent Address</mat-label>
+            <input class="label-padding" matInput placeholder="Permanent Address" formControlName="permanentAddress" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex="1 1 calc(33% - 10px)" fxFlex.lt-md="1 1 calc(33% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+            <mat-label class="label-padding">Designation</mat-label>
+            <mat-select formControlName="designationId" required>
+              <input
+                style="width: -webkit-fill-available; margin-bottom: 10px; height: 30px;"
+                placeholder="Search & Select"
+                (keyup)="onSearchDesignation($any($event.target).value)"
+              />
+              <div style="height: 200px; overflow-y: auto">
+                <mat-option>Select designation</mat-option>
+                <mat-option *ngFor="let item of designationDropdown" [value]="item.designationId">{{
+                  item.nameEnglish
+                }}</mat-option>
+              </div>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex="1 1 calc(33% - 10px)" fxFlex.lt-md="1 1 calc(33% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+            <mat-label class="label-padding">Division</mat-label>
+            <mat-select formControlName="groupId" required (ngModelChange)="clickOnGetUnitByGroupId($event)">
+              <input
+                style="width: -webkit-fill-available; margin-bottom: 10px; height: 30px;"
+                placeholder="Search & Select"
+                (keyup)="onSearchGroup($any($event.target).value)"
+              />
+              <div style="height: 200px; overflow-y: auto">
+                <mat-option>Select division</mat-option>
+                <mat-option *ngFor="let item of groupDropdown" [value]="item.groupId">{{
+                  item.nameEnglish
+                }}</mat-option>
+              </div>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex="1 1 calc(33% - 10px)" fxFlex.lt-md="1 1 calc(33% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+            <mat-label class="label-padding">Unit</mat-label>
+            <mat-select formControlName="unitId" required (ngModelChange)="clickOnGetDepartmentByUnitId($event)">
+              <input
+                style="width: -webkit-fill-available; margin-bottom: 10px; height: 30px;"
+                placeholder="Search & Select"
+                (keyup)="onSearchUnit($any($event.target).value)"
+              />
+              <div style="height: 200px; overflow-y: auto">
+                <mat-option>Select unit</mat-option>
+                <mat-option *ngFor="let item of unitDropdown" [value]="item.unitId">{{
+                  item.nameEnglish
+                }}</mat-option>
+              </div>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex="1 1 calc(33% - 10px)" fxFlex.lt-md="1 1 calc(33% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+            <mat-label class="label-padding">Department</mat-label>
+            <mat-select formControlName="departmentId" required>
+              <input
+                style="width: -webkit-fill-available; margin-bottom: 10px; height: 30px;"
+                placeholder="Search & Select"
+                (keyup)="onSearchDepartment($any($event.target).value)"
+              />
+              <div style="height: 200px; overflow-y: auto">
+                <mat-option>Select department</mat-option>
+                <mat-option *ngFor="let item of departmentDropdown" [value]="item.departmentId">{{
+                  item.nameEnglish
+                }}</mat-option>
+              </div>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- <mat-form-field appearance="outline" fxFlex="1 1 calc(25% - 10px)" fxFlex.lt-md="1 1 calc(25% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+            <mat-label class="label-padding">User Picture</mat-label>
+            <img class="risBtn m-1" [src]="photourllink" style="width: 150px;" alt="">
+            <ngx-mat-file-input type="file" formControlName="picture" placeholder="User Picture"
+              (change)="onSelectImage($event)">
+            </ngx-mat-file-input>
+            <mat-icon matSuffix>publish</mat-icon>
+          </mat-form-field> -->
+
+          <div mat-dialog-actions fxLayoutAlign="end" fxFlex="1 1 calc(100% - 10px)" fxFlex.lt-md="1 1 calc(100% - 10px)" fxFlex.lt-sm="100%"
+            fxFlex.xs="100%" class="from-color" fxLayoutAlign="center center" fxLayoutGap="10px">
+            <button type="button" mat-dialog-close mat-raised-button
+              style="background-color : red; color: white;">Cancel</button>
+            <button type="submit" style="background-color : #01ADE4; color: white;" mat-raised-button [disabled]="form.invalid">
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

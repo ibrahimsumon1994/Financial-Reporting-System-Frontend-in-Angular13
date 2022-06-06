@@ -1,0 +1,401 @@
+<div style="padding-left: 5%">
+  <h1>Transaction</h1>
+</div>
+<mat-card class="container mat-elevation-z8">
+  <div fxLayout="row">
+    <div fxLayoutAlign="start" fXFlex fxFlex="30">
+      <form [formGroup]="form">
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          class="tab"
+        >
+          <div
+            fxLayout="row wrap"
+            fxLayoutGap="5px"
+            fxFlex="100%"
+            fxFlex.sm="100%"
+            fxLayout.lt-sm="column"
+            fxFlex.xs="100%"
+            fxLayoutAlign="flex-start"
+          >
+            <mat-form-field
+              appearance="outline"
+              fxFlex="1 1 calc(50% - 10px)"
+              fxFlex.lt-md="1 1 calc(50% - 10px)"
+              fxFlex.lt-sm="100%"
+              fxFlex.xs="100%"
+              class="from-color"
+            >
+              <mat-label class="label-padding">Month and Year</mat-label>
+              <input
+                matInput
+                [matDatepicker]="dp"
+                [formControl]="date"
+                required
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="dp"
+              ></mat-datepicker-toggle>
+              <mat-datepicker
+                #dp
+                startView="multi-year"
+                (yearSelected)="chosenYearHandler($event)"
+                (monthSelected)="chosenMonthHandler($event, dp)"
+                panelClass="example-month-picker"
+              >
+              </mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field
+              appearance="outline"
+              fxFlex="1 1 calc(50% - 10px)"
+              fxFlex.lt-md="1 1 calc(50% - 10px)"
+              fxFlex.lt-sm="100%"
+              fxFlex.xs="100%"
+              class="from-color"
+            >
+              <mat-label class="label-padding">Type</mat-label>
+              <mat-select
+                formControlName="transactionTypeId"
+                required
+                (ngModelChange)="enableVersion($event)"
+              >
+                <mat-option value="">Select Type</mat-option>
+                <mat-option
+                  *ngFor="let each of transactionTypeDropdown"
+                  [value]="each.commonCodeId"
+                >
+                  {{ each.nameEnglish }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field
+              appearance="outline"
+              fxFlex="1 1 calc(30% - 10px)"
+              fxFlex.lt-md="1 1 calc(30% - 10px)"
+              fxFlex.lt-sm="100%"
+              fxFlex.xs="100%"
+              class="from-color"
+            >
+              <mat-label class="label-padding">Version</mat-label>
+              <mat-select
+                formControlName="versionId"
+                required
+                (ngModelChange)="enableUnit($event)"
+              >
+                <input
+                  style="
+                    width: -webkit-fill-available;
+                    margin-bottom: 10px;
+                    height: 30px;
+                  "
+                  placeholder="Search & Select"
+                  (keyup)="onSearchVersionType($any($event.target).value)"
+                />
+                <div style="height: 200px; overflow-y: auto">
+                  <mat-option>Select Version</mat-option>
+                  <mat-option
+                    *ngFor="let item of versionTypeDropdown"
+                    [value]="item.commonCodeId"
+                    >{{ item.nameEnglish }}</mat-option
+                  >
+                </div>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field
+              appearance="outline"
+              fxFlex="1 1 calc(70% - 10px)"
+              fxFlex.lt-md="1 1 calc(70% - 10px)"
+              fxFlex.lt-sm="100%"
+              fxFlex.xs="100%"
+              class="from-color"
+            >
+              <mat-label class="label-padding">Unit</mat-label>
+              <mat-select
+                formControlName="unitId"
+                required
+                (ngModelChange)="enableEntryType($event)"
+              >
+                <input
+                  style="
+                    width: -webkit-fill-available;
+                    margin-bottom: 10px;
+                    height: 30px;
+                  "
+                  placeholder="Search & Select"
+                  (keyup)="onSearchUnit($any($event.target).value)"
+                />
+                <div style="height: 200px; overflow-y: auto">
+                  <mat-option>Select Unit</mat-option>
+                  <mat-option
+                    *ngFor="let item of unitDropdown"
+                    [value]="item.unitId"
+                    >{{ item.unit.nameEnglish }}</mat-option
+                  >
+                </div>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field
+              appearance="outline"
+              fxFlex="1 1 calc(50% - 10px)"
+              fxFlex.lt-md="1 1 calc(50% - 10px)"
+              fxFlex.lt-sm="100%"
+              fxFlex.xs="100%"
+              class="from-color"
+            >
+              <mat-label class="label-padding">Entry Type</mat-label>
+              <mat-select
+                formControlName="headerTypeId"
+                required
+                (ngModelChange)="getFirstHeaderByHeaderType($event)"
+              >
+                <mat-option value="">Select Entry Type</mat-option>
+                <mat-option
+                  *ngFor="let each of headerTypeDropdown"
+                  [value]="each.commonCodeId"
+                >
+                  {{ each.nameEnglish }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field
+              appearance="outline"
+              fxFlex="1 1 calc(50% - 10px)"
+              fxFlex.lt-md="1 1 calc(50% - 10px)"
+              fxFlex.lt-sm="100%"
+              fxFlex.xs="100%"
+              class="from-color"
+            >
+              <mat-label class="label-padding">Input Type</mat-label>
+              <mat-select
+                formControlName="inputType"
+                required
+                (ngModelChange)="excelUploadOrManualInput($event)"
+              >
+                <mat-option value="">Select Entry Type</mat-option>
+                <mat-option value="Y">Excel Upload</mat-option>
+                <mat-option value="N">Manual Input</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field
+              appearance="outline"
+              fxFlex="1 1 calc(50% - 10px)"
+              fxFlex.lt-md="1 1 calc(50% - 10px)"
+              fxFlex.lt-sm="100%"
+              fxFlex.xs="100%"
+              class="from-color"
+              *ngIf="isExcelUploadOrManualInput == 'Y'"
+            >
+              <mat-label class="label-padding">Upload Excel</mat-label>
+              <ngx-mat-file-input
+                type="file"
+                formControlName="dataSheet"
+                (change)="uploadFileEvt($event)"
+                accept=".xlsx, .xls, .csv"
+              >
+              </ngx-mat-file-input>
+              <mat-icon matTooltip="Upload" matSuffix>publish</mat-icon>
+            </mat-form-field>
+
+            <button type="button" (click)="export()" class="btn" style="color: red; width: 50%;" matTooltip="Download Sample" *ngIf="isExcelUploadOrManualInput == 'Y'">
+              Download Sample
+              <mat-icon>cloud_download</mat-icon>
+            </button>
+
+            <mat-form-field
+              appearance="outline"
+              fxFlex="1 1 calc(100% - 10px)"
+              fxFlex.lt-md="1 1 calc(100% - 10px)"
+              fxFlex.lt-sm="100%"
+              fxFlex.xs="100%"
+              class="from-color"
+              *ngIf="isExcelUploadOrManualInput == 'N'"
+            >
+              <mat-label class="label-padding">1st Header</mat-label>
+              <mat-select
+                formControlName="firstHeaderId"
+                required
+                (ngModelChange)="getSecondHeaderByFirstHeader($event)"
+              >
+                <input
+                  style="
+                    width: -webkit-fill-available;
+                    margin-bottom: 10px;
+                    height: 30px;
+                  "
+                  placeholder="Search & Select"
+                  (keyup)="onSearchFirstHeader($any($event.target).value)"
+                />
+                <div style="height: 200px; overflow-y: auto">
+                  <mat-option>Select 1st Header</mat-option>
+                  <mat-option
+                    *ngFor="let item of firstHeaderDropdown"
+                    [value]="item.headerId"
+                    >{{ item.headerName }}</mat-option
+                  >
+                </div>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field
+              appearance="outline"
+              fxFlex="1 1 calc(100% - 10px)"
+              fxFlex.lt-md="1 1 calc(100% - 10px)"
+              fxFlex.lt-sm="100%"
+              fxFlex.xs="100%"
+              class="from-color"
+              *ngIf="isExcelUploadOrManualInput == 'N'"
+            >
+              <mat-label class="label-padding">2nd Header</mat-label>
+              <mat-select
+                formControlName="secondHeaderId"
+                required
+                (ngModelChange)="getItemsWithDataBySecondHeader($event)"
+              >
+                <input
+                  style="
+                    width: -webkit-fill-available;
+                    margin-bottom: 10px;
+                    height: 30px;
+                  "
+                  placeholder="Search & Select"
+                  (keyup)="onSearchSecondHeader($any($event.target).value)"
+                />
+                <div style="height: 200px; overflow-y: auto">
+                  <mat-option>Select 2nd Header</mat-option>
+                  <mat-option
+                    *ngFor="let item of secondHeaderDropdown"
+                    [value]="item.headerId"
+                    >{{ item.headerName }}</mat-option
+                  >
+                </div>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div fxFlex="70" fxLayoutAlign="center">
+      <div class="table-wrapper-scroll-y my-custom-scrollbar" *ngIf="isExcelUploadOrManualInput == 'N'">
+        <table class="table table-bordered table-striped mb-0">
+          <thead>
+            <tr>
+              <th scope="col" style="width: 10px">Item Code</th>
+              <th scope="col" style="width: 300px">Item Name</th>
+              <th scope="col" style="width: 10px">Value</th>
+              <!-- <th scope="col" style="width: 10px">Remarks</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of transactionList; let i = index">
+              <td style="width: 10px">{{ item.thirdHeader.headerCode }}</td>
+              <td style="width: 300px">{{ item.thirdHeader.headerName }}</td>
+              <td style="width: 10px">
+                <input
+                  type="number"
+                  (keyup.enter)="keytab(i)"
+                  (focusout)="onFocusOutValueEvent($event, item)"
+                  class="label-padding"
+                  matInput
+                  placeholder="Value"
+                  value="{{ item.value }}"
+                  id="{{ i }}"
+                  [disabled]="item.numberOfUpdate && item.numberOfUpdate >= 2"
+                />
+              </td>
+              <!-- <td style="width: 10px">
+                <input
+                  class="label-padding"
+                  matInput
+                  placeholder="Remarks"
+                  value="{{ item.remarks }}"
+                  (focusout)="onFocusOutRemarksEvent($event, item)"
+                />
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-wrapper-scroll-y my-custom-scrollbar" *ngIf="isExcelUploadOrManualInput == 'Y'">
+        <table class="table table-bordered table-striped mb-0">
+          <thead>
+            <tr>
+              <th scope="col" style="width: 10px">Month and Year</th>
+              <th scope="col" style="width: 10px">Type</th>
+              <th scope="col" style="width: 10px">Version</th>
+              <th scope="col" style="width: 10px">Unit</th>
+              <th scope="col" style="width: 10px">Entry Type</th>
+              <th scope="col" style="width: 10px">Header</th>
+              <th scope="col" style="width: 10px">Sub Header</th>
+              <th scope="col" style="width: 10px">Item Name</th>
+              <th scope="col" style="width: 10px">Value</th>
+              <!-- <th scope="col" style="width: 10px">Remarks</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of itemList; let i = index">
+              <td style="width: 10px">{{ item.monthYear  | date:'longDate'}}</td>
+              <td style="width: 10px">{{ item.type }}</td>
+              <td style="width: 10px">{{ item.version }}</td>
+              <td style="width: 10px">{{ item.unit }}</td>
+              <td style="width: 10px">{{ item.entryType }}</td>
+              <td style="width: 10px">{{ item.header }}</td>
+              <td style="width: 10px">{{ item.subHeader }}</td>
+              <td style="width: 10px">{{ item.itemName }}</td>
+              <td style="width: 10px">
+                <input
+                  type="number"
+                  (keyup.enter)="keytab(i)"
+                  (focusout)="onFocusOutValueEventForExcel($event, item)"
+                  class="label-padding"
+                  matInput
+                  placeholder="Value"
+                  value="{{ item.value }}"
+                  id="{{ i }}"
+                  [disabled]="item.numberOfUpdate && item.numberOfUpdate >= 2"
+                />
+              </td>
+              <!-- <td style="width: 10px">
+                <input
+                  class="label-padding"
+                  matInput
+                  placeholder="Remarks"
+                  value="{{ item.remarks }}"
+                  (focusout)="onFocusOutRemarksEvent($event, item)"
+                />
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div style="padding-top: 10px; padding-right: 5%; text-align: right" *ngIf="transactionList">
+    <button
+      (click)="onSubmit()"
+      style="background-color: #01ade4; color: white"
+      mat-raised-button
+      [disabled]="form.invalid"
+    >
+      Post
+    </button>
+  </div>
+  <div style="padding-top: 10px; padding-right: 5%; text-align: right" *ngIf="itemList">
+    <button
+      (click)="onSubmitExcelData()"
+      style="background-color: #01ade4; color: white"
+      mat-raised-button
+      [disabled]="form.invalid"
+    >
+      Post
+    </button>
+  </div>
+</mat-card>

@@ -1,0 +1,19 @@
+.my-custom-scrollbar {
+  position: relative;
+  height: 420px;
+  overflow: auto;
+}
+
+.table-wrapper-scroll-y {
+  width: 95%;
+  display: block;
+  //margin-top: 20px;
+}
+
+.example-month-picker .mat-calendar-period-button {
+  pointer-events: none;
+}
+
+.example-month-picker .mat-calendar-arrow {
+  display: none;
+}

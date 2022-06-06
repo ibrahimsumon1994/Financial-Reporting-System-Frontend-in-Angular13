@@ -1,0 +1,110 @@
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// **Be sure that you only ever include this mixin once!**
+@include mat-core();
+
+@mixin ums-theme($theme) {
+  // Extract the palettes you need from the theme definition.
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+}
+
+th.mat-header-cell {
+  /* row border */
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+td.mat-cell {
+  /* row border */
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  font-size: 12px;
+}
+
+table {
+  /* row spacing / margin */
+  border-spacing: 8px;
+}
+
+$mat-ums-primary: (
+  50:#e0e7f8,
+  100:#b3c3ee,
+  200:#809ce3,
+  300:#4d74d8,
+  400:#2656cf,
+  500:#0038c7,
+  600:#0032c1,
+  700:#002bba,
+  800:#0024b3,
+  900:#0017a6,
+  A100:#d0d4ff,
+  A200:#9da5ff,
+  A400:#6a76ff,
+  A700:#515eff,
+
+
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+$mat-ums-accent: (
+  50:#e0e7f8,
+  100:#b3c3ee,
+  200:#809ce3,
+  300:#4d74d8,
+  400:#2656cf,
+  500:#0038c7,
+  600:#0032c1,
+  700:#002bba,
+  800:#0024b3,
+  900:#0017a6,
+  A100:#d0d4ff,
+  A200:#9da5ff,
+  A400:#6a76ff,
+  A700:#515eff,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+// Define the default theme (same as the example above).
+$ums-theme-primary: mat-palette($mat-ums-primary);
+$ums-theme-accent: mat-palette($mat-orange);
+//$ums-theme-accent: mat-palette($mat-ums-accent, 300, 700, A100);
+$ums-theme-warn: mat-palette($mat-red);
+
+$ums-custom-theme: mat-light-theme($ums-theme-primary, $ums-theme-accent, $ums-theme-warn);
+
+$primary: mat-color($ums-theme-primary);
+
+
+@include angular-material-theme($ums-custom-theme);
+@include ums-theme($ums-custom-theme);

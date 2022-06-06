@@ -1,0 +1,101 @@
+<div fxLayout="column" fxLayoutAlign="space-around">
+  <div>
+    <title class="title" mat-dialog-title *ngIf="!data">Assign Role To Menu</title>
+    <title class="title" mat-dialog-title *ngIf="data">Edit Assigned Role To Menu</title>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="space-around center" style="margin-top:10px;">
+    <form [formGroup]="form" novalidate>
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" class="tab">
+        <div fxLayout="row wrap" fxLayoutGap="10px" fxFlex="100%" fxFlex.sm="50%" fxLayout.lt-sm="column"
+          fxFlex.xs="100%" fxLayoutAlign="flex-start">
+
+          <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)" fxFlex.lt-md="1 1 calc(30% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+            <mat-label class="label-padding">Role</mat-label>
+            <mat-select formControlName="roleId" required  [disabled]="data" (ngModelChange)="getMenuByRoleId($event)">
+              <input
+                style="width: -webkit-fill-available; margin-bottom: 10px; height: 30px;"
+                placeholder="Search & Select"
+                (keyup)="onSearchRole($any($event.target).value)"
+              />
+              <div style="height: 200px; overflow-y: auto">
+                <mat-option>Select Role</mat-option>
+                <mat-option *ngFor="let item of roleDropdown" [value]="item.roleId">{{
+                  item.roleName
+                }}</mat-option>
+              </div>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)" fxFlex.lt-md="1 1 calc(30% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+            <mat-label class="label-padding">Menu</mat-label>
+            <mat-select formControlName="menuId" required  [disabled]="data">
+              <input
+                style="width: -webkit-fill-available; margin-bottom: 10px; height: 30px;"
+                placeholder="Search & Select"
+                (keyup)="onSearchMenu($any($event.target).value)"
+              />
+              <div style="height: 200px; overflow-y: auto">
+                <mat-option>Select Menu</mat-option>
+                <mat-option *ngFor="let item of menuDropdown" [value]="item.menuId">{{
+                  item.menuName
+                }}</mat-option>
+              </div>
+            </mat-select>
+          </mat-form-field>
+
+        </div>
+      </div>
+      <div fxLayoutGap="10px" fxLayoutAlign="space-around center">
+        <mat-checkbox formControlName="createYn" (change)="Create($event.checked)">Create</mat-checkbox>
+        <mat-checkbox formControlName="editYn" (change)="Edit($event.checked)">Edit</mat-checkbox>
+        <mat-checkbox formControlName="viewDetailYn" (change)="View_Detail($event.checked)">View Detail</mat-checkbox>
+        <mat-checkbox formControlName="deleteYn" (change)="Delete($event.checked)">Delete</mat-checkbox>
+        <mat-checkbox formControlName="authYn" (change)="Authorization($event.checked)">Authorization</mat-checkbox>
+        <button *ngIf="!data" mat-raised-button (click)="add()" [disabled]="form.invalid">
+          <mat-icon>add_circle</mat-icon>
+          ADD
+        </button>
+      </div>
+    </form>
+    <div class="table-wrapper-scroll-y my-custom-scrollbar" *ngIf="!data">
+      <table class="table table-bordered table-striped mb-0">
+        <thead>
+          <tr>
+            <th scope="col">Role</th>
+            <th scope="col">Menu</th>
+            <th scope="col">Create</th>
+            <th scope="col">Edit</th>
+            <th scope="col">View Details</th>
+            <th scope="col">Delete</th>
+            <th scope="col">Authorize</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of roleWiseMenuAssignList;">
+            <td>{{r.roleName}}</td>
+            <td>{{r.menuName}}</td>
+            <td>{{r.createYn}}</td>
+            <td>{{r.editYn}}</td>
+            <td>{{r.viewDetailYn}}</td>
+            <td>{{r.deleteYn}}</td>
+            <td>{{r.authYn}}</td>
+            <button style="color: red; width: 100%;" (click)="deleteFromTable(r.serial)" matTooltip="Delete">
+              <mat-icon>clear</mat-icon>
+            </button>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div mat-dialog-actions fxLayoutAlign="end" style="padding-top: 20px;">
+    <button type="button" [mat-dialog-close] mat-raised-button style="background-color : red; color: white;">
+      Cancel
+    </button>
+    <button (click)="onSubmit()" style="background-color : #01ADE4; color: white;" mat-raised-button [disabled]="form.invalid">
+      Save
+    </button>
+  </div>
+</div>

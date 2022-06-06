@@ -1,0 +1,84 @@
+.refresh_button{
+  min-height: 40px;
+  border-radius: 5px;
+  border: 1px solid #E4EAF1;
+  background-color: #ffffff;
+}
+.refresh_button:hover{
+  min-height: 40px;
+  border-radius: 5px;
+  border: 1px solid #ffffff;
+  background-color: #E4EAF1;
+  cursor: pointer;
+}
+button{
+  min-height: 40px;
+  border-radius: 5px;
+}
+input {
+  border-radius: 5px;
+  min-height: 40px;
+  width:350px;
+  outline: none;
+  border: 1px solid #E4EAF1;
+}
+input:hover {
+  border-radius: 5px;
+  min-height: 40px;
+  width:350px;
+  outline: none;
+  border: 2px solid #01ADE4;
+  background-color:#E4EAF1 ;
+}
+table {
+  margin-top: 10px;
+  width: 100%;
+}
+tr.mat-header-row {
+  height: 56px;
+  background-color: #E4EAF1;
+}
+.mat-card {
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  display:block;
+  position: relative;
+  padding:16px 0 16px 0;
+  border-radius: 10px;
+  min-height: 342;
+  min-width: 1306;
+}
+.table-button-action{
+  margin: 5px;
+  min-height: 40px;
+  border-radius: 5px;
+  border: 1px solid #E4EAF1;
+  background-color: #ffffff;
+}
+.table-button-action:hover{
+  min-height: 40px;
+  border-radius: 5px;
+  border: 1px solid #ffffff;
+  background-color: #E4EAF1;
+  cursor: pointer;
+}
+.table-button-status-A{
+  background-color: #01ADE4;
+  border-radius: 15px;
+  width: 100%;
+  padding: 5px 10px 5px 10px;
+  color: #ffffff;
+}
+.table-button-status-P{
+  background-color: orange;
+  border-radius: 15px;
+  width: 100%;
+  padding: 5px 10px 5px 10px;
+  color: #ffffff;
+}
+.table-button-status-C{
+ background-color: red;
+ border-radius: 15px;
+ width: 100%;
+ padding: 5px 10px 5px 10px;
+ color: #ffffff;
+}

@@ -1,0 +1,63 @@
+<div fxLayout="column" fxLayoutAlign="space-around">
+  <div>
+    <title class="title" mat-dialog-title *ngIf="!data">Assign Role To User</title>
+    <title class="title" mat-dialog-title *ngIf="data">Edit Assigned Role To User</title>
+  </div>
+  <mat-progress-bar *ngIf="asyncService?.isLoading | async" mode="indeterminate">
+  </mat-progress-bar>
+  <div fxLayout="column" fxLayoutAlign="space-around center">
+    <form [formGroup]="form" autocomplete="off">
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" class="tab">
+        <div fxLayout="row wrap" fxLayoutGap="10px" fxFlex="100%" fxFlex.sm="50%" fxLayout.lt-sm="column"
+          fxFlex.xs="100%" fxLayoutAlign="flex-start">
+
+          <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)" fxFlex.lt-md="1 1 calc(30% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+            <mat-label class="label-padding">User Id</mat-label>
+            <mat-select formControlName="userID" required>
+              <input
+                style="width: -webkit-fill-available; margin-bottom: 10px; height: 30px;"
+                placeholder="Search & Select"
+                (keyup)="onSearchUser($any($event.target).value)"
+              />
+              <div style="height: 200px; overflow-y: auto">
+                <mat-option>Select User</mat-option>
+                <mat-option *ngFor="let item of users" [value]="item.id">{{
+                  item.fullName
+                }}</mat-option>
+              </div>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex="1 1 calc(30% - 10px)" fxFlex.lt-md="1 1 calc(30% - 10px)"
+            fxFlex.lt-sm="100%" fxFlex.xs="100%" class="from-color">
+            <mat-label class="label-padding">Role</mat-label>
+            <mat-select formControlName="roleID" required>
+              <input
+                style="width: -webkit-fill-available; margin-bottom: 10px; height: 30px;"
+                placeholder="Search & Select"
+                (keyup)="onSearchRole($any($event.target).value)"
+              />
+              <div style="height: 200px; overflow-y: auto">
+                <mat-option>Select Role</mat-option>
+                <mat-option *ngFor="let item of roleDropdown" [value]="item.roleId">{{
+                  item.roleName
+                }}</mat-option>
+              </div>
+            </mat-select>
+          </mat-form-field>
+
+          <div mat-dialog-actions fxFlex="1 1 calc(50% - 10px)" fxFlex.lt-md="1 1 calc(50% - 10px)" fxFlex.lt-sm="100%"
+            fxFlex.xs="100%" class="from-color" fxLayoutAlign="center center" fxLayoutGap="10px">
+            <button type="button" [mat-dialog-close] mat-raised-button
+              style="background-color : red; color: white;">Cancel</button>
+            <button type="submit" (click)="onSubmit()" style="background-color : #01ADE4; color: white;"
+              mat-raised-button [disabled]="form.invalid">
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

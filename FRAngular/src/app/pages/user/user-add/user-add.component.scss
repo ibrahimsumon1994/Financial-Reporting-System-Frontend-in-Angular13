@@ -1,0 +1,48 @@
+.mat-dialog-actions {
+  padding: 8px 0;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 52px;
+  align-items: center;
+  box-sizing: content-box;
+  margin-bottom:0
+}
+mat-error {
+  color: red;
+}
+.picture-update {
+  position: absolute;
+  bottom: 58%;
+  left: 49%;
+  right: 0;
+  margin-right: auto;
+  margin-left: auto;
+  width: 50px;
+}
+.picture-add {
+  position: absolute;
+  bottom: 53%;
+  left: 49%;
+  right: 0;
+  margin-right: auto;
+  margin-left: auto;
+  width: 50px;
+}
+.signature-update {
+  position: absolute;
+  bottom: 58%;
+  left: 72%;
+  right: 0;
+  margin-right: auto;
+  margin-left: auto;
+  width: 50px;
+}
+.signature-add {
+  position: absolute;
+  bottom: 53%;
+  left: 72%;
+  right: 0;
+  margin-right: auto;
+  margin-left: auto;
+  width: 50px;
+}

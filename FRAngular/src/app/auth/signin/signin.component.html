@@ -1,0 +1,41 @@
+<div class="content" fxLayout="row" fxLayout.xs="column" fxFlexFill>
+  <div fxFlex="70" class="sec1">
+  </div>
+  <div fxFlex="30" class="sec2">
+    <div fxLayout="column" fxLayoutAlign="space-around center">
+      <div style="color:rebeccapurple; text-align: center; padding: 10%;">
+        <img src="../../../assets/img/anwar_big_logo.png" width="350px" height="170px">
+      </div>
+      <div style="color:rebeccapurple; text-align: center;">
+        <h1>Financial Reporting System</h1>
+      </div>
+
+      <div style="color:rebeccapurple; padding: 20px;">
+        <form [id]="formId" [formGroup]="form" novalidate autocomplete="off">
+          <mat-form-field appearance="fill" style="width: 100%;">
+            <mat-label>User ID</mat-label>
+            <input matInput placeholder="User ID" formControlName="userId">
+            <mat-icon matPrefix>person_outline</mat-icon>
+
+          </mat-form-field>
+          <mat-form-field appearance="fill" style="width: 100%;">
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Password" formControlName="passWord" type="password">
+            <mat-icon matPrefix> vpn_key</mat-icon>
+
+          </mat-form-field>
+
+          <button (click)="onLogin()" mat-raised-button color="primary" style="width: 100%;"> Login </button>
+
+        </form>
+
+      </div>
+      <div style="color:black; font-size: small;">
+        <footer>Copyright Anwar Group Of Industries(AGI). All Rights reserved.</footer>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-scale-multiple">
+  <p style="color: white">Please Wait...</p>
+</ngx-spinner>
